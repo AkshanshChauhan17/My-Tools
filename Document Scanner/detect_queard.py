@@ -2,8 +2,8 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
-img = cv2.imread('chess.png')
-gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+img = cv2.imread('chess.jpg', 1)
+gray = cv2.cvtColor(src=img, code=cv2.COLOR_BGR2GRAY)
 corners = cv2.goodFeaturesToTrack(gray, maxCorners=4, qualityLevel=0.01, minDistance=10)
 
 for corner in corners:
