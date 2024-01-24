@@ -17,7 +17,7 @@ def read_pdf_from_web(pdf_url):
 
 def read():
     try:
-        pdf_url = "https://online.uktech.ac.in/ums/Print/DownloadPDFPromotionApplicatinForm?StudentPromotionId=120"
+        pdf_url = "https://online.uktech.ac.in/ums/Print/DownloadPDFPromotionApplicatinForm?StudentPromotionId=3"
         pdf_text = read_pdf_from_web(pdf_url)
         
         if pdf_text:
