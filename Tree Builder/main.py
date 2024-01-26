@@ -10,7 +10,7 @@ def build(x):
         step = step + 1
         x = divider(x)
         for i in range(splitter(step)):
-            print(x, " ", end="")
+            print(x, ",", end="")
         print("")
 
-build(1000)
+build(10000)
