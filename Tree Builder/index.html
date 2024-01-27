@@ -1,0 +1,81 @@
+<style>
+    .screen {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .parent {
+        border: 1px solid black;
+        padding: 10px;
+        display: grid;
+        align-content: center;
+    }
+    
+    .parent:hover {
+        background-color: aliceblue;
+    }
+    
+    .child {
+        cursor: pointer;
+        padding: 10px 15px;
+        border-bottom: 1px solid rgb(174, 174, 174);
+    }
+    
+    .child:last-child {
+        border: 0px;
+    }
+    
+    .child:hover {
+        background-color: black;
+        color: white;
+    }
+    
+    .sum {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: green;
+        color: white;
+    }
+</style>
+<div class="screen">
+
+</div>
+<input type="tel" oninput="build(this.value)">
+<script>
+    var screen_ele = document.getElementsByClassName("screen");
+
+    function divider(x) {
+        return Math.floor(x / 2);
+    };
+
+    function splitter(x) {
+        return Math.floor(x * 2);
+    };
+
+    function build(x) {
+        screen_ele[0].innerHTML = null;
+        var step = 0;
+        while (x > 0) {
+            var div_parent = document.createElement("div");
+            var div_sum = document.createElement("div");
+            div_sum.className = "sum";
+            div_parent.className = "parent";
+            div_parent.setAttribute("title", `Column no ${step}`)
+            step = step + 1;
+            x = divider(x);
+            var sum = 0;
+            for (let i = 0; i < splitter(step); i++) {
+                var div_child = document.createElement("div");
+                div_child.innerText = x;
+                div_child.className = "child";
+                div_child.setAttribute("title", `Column no ${step}, Row no ${i}`)
+                div_parent.append(div_child);
+                sum = sum + x;
+            };
+            div_sum.innerText = sum;
+            div_parent.append(div_sum);
+            screen_ele[0].append(div_parent);
+        };
+    };
+</script>
