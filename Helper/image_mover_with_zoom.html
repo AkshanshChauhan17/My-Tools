@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        #image-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            cursor: grab;
+            overflow: visible;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: blue;
+        }
+        
+        #image-container:active {
+            cursor: grabbing;
+        }
+        
+        #image {
+            position: fixed;
+            transition: transform 0.2s ease-in-out;
+        }
+        
+        .box {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="image-container">
+        <img id="image" src="https://upload.wikimedia.org/wikipedia/commons/7/74/India-map-en.svg" alt="Your Image">
+        <div class="box"></div>
+    </div>
+
+    <script>
+        let isDragging = false;
+        let startX, startY, offsetX, offsetY;
+        let scale = 1;
+
+        const imageContainer = document.getElementById('image-container');
+        const image = document.getElementById('image');
+        const box = document.getElementsByClassName('box');
+
+        imageContainer.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.clientX - image.offsetLeft;
+            startY = e.clientY - image.offsetTop;
+        });
+
+        imageContainer.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        imageContainer.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+
+            const x = e.clientX - startX;
+            const y = e.clientY - startY;
+
+            image.style.left = `${x}px`;
+            image.style.top = `${y}px`;
+        });
+
+        imageContainer.addEventListener('mouseleave', () => {
+            isDragging = false;
+        });
+
+        imageContainer.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            const delta = Math.sign(e.deltaY);
+
+            const mouseX = e.clientX - imageContainer.getBoundingClientRect().left;
+            const mouseY = e.clientY - imageContainer.getBoundingClientRect().top;
+
+            const newScale = delta > 0 ? scale - 0.1 : scale + 0.1;
+
+            if (newScale > 0.1 && newScale < 10) {
+                scale = newScale;
+
+                const offsetX = (mouseX - image.offsetLeft) * (1 / scale);
+                const offsetY = (mouseY - image.offsetTop) * (1 / scale);
+
+                console.log(offsetX, offsetY, delta, image.offsetLeft, image.offsetTop)
+
+                box[0].style.top = `${offsetX}px`;
+                box[0].style.left = `${offsetY}px`;
+
+                image.style.transform = `scale(${scale}) translate(${offsetX}px, ${offsetY}px)`;
+            }
+        });
+    </script>
+
+</body>
+
+</html>

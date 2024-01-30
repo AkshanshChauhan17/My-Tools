@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        #image-container {
+            position: absolute;
+            cursor: grab;
+            overflow: hidden;
+        }
+        
+        #image {
+            width: 1000px;
+            height: 1000px;
+            object-fit: contain;
+        }
+        
+        #image:active {
+            cursor: grabbing;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="image-container">
+        <img id="image" src="https://upload.wikimedia.org/wikipedia/commons/7/74/India-map-en.svg" alt="Your Image">
+    </div>
+
+    <script>
+        let isDragging = false;
+        let startX, startY, offsetX, offsetY;
+
+        const imageContainer = document.getElementById('image-container');
+        const image = document.getElementById('image');
+
+        imageContainer.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.clientX - imageContainer.offsetLeft;
+            startY = e.clientY - imageContainer.offsetTop;
+        });
+
+        imageContainer.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        imageContainer.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+
+            const x = e.clientX - startX;
+            const y = e.clientY - startY;
+
+            imageContainer.style.left = `${x}px`;
+            imageContainer.style.top = `${y}px`;
+        });
+
+        imageContainer.addEventListener('mouseleave', () => {
+            isDragging = false;
+        });
+    </script>
+
+</body>
+
+</html>
